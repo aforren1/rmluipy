@@ -1,0 +1,6 @@
+[submodule "submodules/rmlui"]
+	path = submodules/rmlui
+	url = https://github.com/mikke89/rmlui
+[submodule "submodules/pybind11"]
+	path = submodules/pybind11
+	url = https://github.com/pybind/pybind11
