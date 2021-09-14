@@ -48,7 +48,7 @@ public:
 class HelperRender
 {
 public:
-    virtual void RenderGeometry2(py::memoryview vertices, py::memoryview indices, Rml::TextureHandle texture, const Rml::Vector2f &translation) = 0;
+    virtual void RenderGeometry2(const py::buffer& vertices, const py::buffer& indices, Rml::TextureHandle texture, const Rml::Vector2f &translation) = 0;
 };
 
 class PyRenderInterface : public HelperRender,
@@ -76,13 +76,12 @@ public:
         RenderGeometry2(verts, inds, texture, translation);
     }
 
-    void RenderGeometry2(py::memoryview vertices, py::memoryview indices, Rml::TextureHandle texture, const Rml::Vector2f &translation) override
+    void RenderGeometry2(const py::buffer& vertices, const py::buffer& indices, Rml::TextureHandle texture, const Rml::Vector2f &translation) override
     {
-        PYBIND11_OVERRIDE_PURE_NAME(
+        PYBIND11_OVERRIDE_PURE(
             void,
             HelperRender,
-            "render_geometry",
-            RenderGeometry2,
+            HelperRender::RenderGeometry2,
             vertices, indices, texture, translation);
     }
     void EnableScissorRegion(bool enable) override
@@ -122,7 +121,7 @@ PYBIND11_MODULE(rmlui, m)
     // PYBIND11_NUMPY_DTYPE(Rml::Colourb, red, green, blue, alpha);
     // PYBIND11_NUMPY_DTYPE(Rml::Vertex, position, colour, tex_coord);
 
-    // py::class_<HelperRender, PyRenderInterface>(m, "RenderInterface")
-    //     .def(py::init<>())
-    //     .def("render_geometry", &HelperRender::RenderGeometry2);
+    py::class_<HelperRender, PyRenderInterface>(m, "RenderInterface")
+        .def(py::init<>())
+        .def("render_geometry", &HelperRender::RenderGeometry2);
 }
