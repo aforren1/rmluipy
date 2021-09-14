@@ -78,9 +78,10 @@ public:
 
     void RenderGeometry2(py::memoryview vertices, py::memoryview indices, Rml::TextureHandle texture, const Rml::Vector2f &translation) override
     {
-        PYBIND11_OVERRIDE_PURE(
+        PYBIND11_OVERRIDE_PURE_NAME(
             void,
             HelperRender,
+            "render_geometry",
             RenderGeometry2,
             vertices, indices, texture, translation);
     }
@@ -121,7 +122,7 @@ PYBIND11_MODULE(rmlui, m)
     // PYBIND11_NUMPY_DTYPE(Rml::Colourb, red, green, blue, alpha);
     // PYBIND11_NUMPY_DTYPE(Rml::Vertex, position, colour, tex_coord);
 
-    py::class_<HelperRender, PyRenderInterface>(m, "RenderInterface")
-        .def(py::init<>())
-        .def("render_geometry", &HelperRender::RenderGeometry2);
+    // py::class_<HelperRender, PyRenderInterface>(m, "RenderInterface")
+    //     .def(py::init<>())
+    //     .def("render_geometry", &HelperRender::RenderGeometry2);
 }
